@@ -1,0 +1,139 @@
+<div class="container">
+
+<div class"row">
+	<div class="col-md-3 col-md-offset-9">
+		<img src="http://gamesandimpact.org/wp-content/themes/cgi/img/logo-tagline.png" class="img-responsive" style ="height: 4em; width: 12em;">
+	</div>
+	
+</div>
+<%= form_for(@impactGuide) do |f|%>
+<div class ="row">
+	<div class="col-md-3" >
+		drop down goes here
+		
+	</div>
+	<div class="col-md-9 ">
+		
+			
+			<div >
+				<%= f.fields_for :theme do |t|%>
+				<%= t.text_field :name, :placeholder => "theme"%>
+				<%end%>
+			</div>
+				
+	</div>
+	
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<%= f.fields_for :game do |g|%>
+		<%= g.text_field :title, :placeholder=> "Game Title"%>
+		<%end%>
+	</div>
+	<div class="col-md-9">
+		drop down for player,parent,teacher impact guid
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">	
+		<%= f.text_field :age, :placeholder => "Age"%>
+	</div>
+	
+	<div class="col-md-3 ">
+		<%= f.text_field :time, :placeholder => "Time"%>	
+	</div>
+	
+	<div class="col-md-6" style="visibility: hidden;">
+		asdfdsf
+	</div>
+</div>
+<div class="row">
+	<div class = "col-md-12">
+		<%=f.fields_for :game do |g|%>
+		<%g.text_area :quote, :placeholder => "Quote"%>
+		<%end%>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<%=f.fields_for :game do |g|%>
+		<%g.text_field :source, :placeholder => "--Source, Position, Company"%>
+		<%end%>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div>
+			Theme for this guide...
+		</div>
+		<br>
+		<div>
+			<%= f.fields_for :ig_about_description do |i|%>
+			<%= i.text_area :text, :placeholder => "Game Description"%>
+			<%end%>
+		</div>
+	</div>
+</div>
+<div class="row" style = "border-right: 3px solid; border-left: 3px solid;">
+	<div class="col-md-3">
+		
+			Why use this guide 
+		</div>
+		<div class="col-md-9" style = "border-left: 3px solid;">
+			<%= f.fields_for :ig_theme_description do |i|%>
+			<%= i.text_area :text, :placeholder => "theme Description"%>
+			<%end%>
+		</div>
+</div>
+<div class="row"style = "border: 3px solid;">
+	<div class="col-md-3" >
+		
+			Game Basics 
+		</div>
+		<div class="col-md-9"style = "border-left: 3px solid;">
+			<ul>
+			    <%= f.fields_for :game_basics_prompts do |i|%>
+				  <li>
+					<%= i.text_field :prompt, :placeholder => "Theme Insight Prompt"%>
+				  </li>
+				<%end%>
+			</ul>
+		</div>
+</div>
+<div class="row" style = "border: 3px solid;">
+	<div class="col-md-3" >
+		
+			Theme Insights 
+		</div>
+		<div class="col-md-9"style = "border-left: 3px solid;">
+			<ul>
+			    <%= f.fields_for :theme_insight_prompts do |i|%>
+				  <li>
+					<%= i.text_field :prompt, :placeholder => "Theme Insight Prompt"%>
+				  </li>
+				<%end%>
+			</ul>
+		</div>
+</div>
+<div class="row" style = "border: 3px solid;">
+	<div class="col-md-3"  >
+		
+			World Connections 
+		</div>
+		<div class="col-md-9" style = "border-left: 3px solid;">
+			<ul>
+			    <%= f.fields_for :world_connections_prompts do |i|%>
+				  <li>
+					<%= i.text_field :prompt, :placeholder => "Theme Insight Prompt"%>
+				  </li>
+				<%end%>
+			</ul>
+		</div>
+</div>
+<%=f.submit "create impact guide", class: "btn btn-primary"%>
+<%end%>
+</div>
+
+

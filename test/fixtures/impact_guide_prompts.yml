@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  impact_guid_id: 
+  prompt: MyString
+  : 
+  =: MyString
+  points: 
+  position: 
+  prompt: 
+
+two:
+  impact_guid_id: 
+  prompt: MyString
+  : 
+  =: MyString
+  points: 
+  position: 
+  prompt: 

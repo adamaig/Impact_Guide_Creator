@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  impact_guide_id: 
+  role: 1
+
+two:
+  user_id: 
+  impact_guide_id: 
+  role: 1

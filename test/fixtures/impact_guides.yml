@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  creator_id: 
+  theme_id: 
+  game_id: 
+  category_id: 
+
+two:
+  creator_id: 
+  theme_id: 
+  game_id: 
+  category_id: 
