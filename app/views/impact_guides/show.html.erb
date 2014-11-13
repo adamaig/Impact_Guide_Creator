@@ -2,4 +2,59 @@
 <%= notSignedIn %>
 <%else%>
 <%end%>
+
+<div class = "container">
+	<div class="row">
+		<div class = "fist line">
+			<%=ImpactArea.find(@impactGuide.category_id).name %> | <%= Theme.find(@impactGuide.theme_id).name %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class = "gameName">
+			<%= Game.find(@impactGuide.game_id).title %>: IMPACT GUIDE
+		</div>
+	</div>
+	<div class="row">
+		<div class = "ageTime">
+			<%= @impactGuide.age %> | <%= @impactGuide.time %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class = " col-md-9">
+			<div class = "quote">
+				<%= Game.find(@impactGuide.game_id).quote %> <br> -<%= Game.find(@impactGuide.game_id).source %>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class = "aboutGame">
+			ABOUT <%= Game.find(@impactGuide.game_id).title %><br><%= IgAboutDescription.find_by(game_id: Game.find(@impactGuide.game_id)).text%>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class = "aboutTheme">
+			Theme for this guide <%= Theme.find(@impactGuide.theme_id).name %><br><%= IgThemeDescription.find_by(themeId: Theme.find(@impactGuide.theme_id).id).text%>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
    
