@@ -1,3 +1,4 @@
+
 <div class="container">
 
 <div class"row">
@@ -6,11 +7,24 @@
 	</div>
 	
 </div>
+<% if @impactGuide.errors.any? %>
+    <div id="error_explanation">
+    <div class="alert alert-danger">
+      The form contains <%= pluralize(@impactGuide.errors.count, "error") %>.
+    </div>
+    <ul>
+    <% @impactGuide.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 <%= form_for(@impactGuide) do |f|%>
 <div class ="row">
 	<div class="col-md-3" >
-		drop down goes here
-		
+		<% array = ImpactArea.all.map { |s| ([s.name, s.id]) } %>
+		<%= f.select :category_id, options_for_select(array) %>
+		<% @id = current_user.id%>
 	</div>
 	<div class="col-md-9 ">
 		
@@ -28,11 +42,15 @@
 <div class="row">
 	<div class="col-md-3">
 		<%= f.fields_for :game do |g|%>
-		<%= g.text_field :title, :placeholder=> "Game Title"%>
+		<%= g.text_field :title, :placeholder=> "Insert Game Title"%>
 		<%end%>
 	</div>
 	<div class="col-md-9">
-		drop down for player,parent,teacher impact guid
+		<%= f.fields_for :gameDropDown do |g|%>
+		<%games = Game.all.map {|g| ([g.title, g.title])} %> <% games.insert(0, ["or choose from existing games", ""])%>
+		<%= g.select :title, options_for_select(games) %>
+		<%end%>
+
 	</div>
 </div>
 
@@ -65,10 +83,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<div>
-			Theme for this guide...
-		</div>
-		<br>
+		
 		<div>
 			<%= f.fields_for :ig_about_description do |i|%>
 			<%= i.text_area :text, :placeholder => "Game Description"%>
@@ -76,14 +91,21 @@
 		</div>
 	</div>
 </div>
+<div class="row" >
+  <div class="col-md-12">
+  <%= f.fields_for :ig_theme_description do |i|%>
+       <%= i.text_area :text, :placeholder => "theme Description"%>
+   <%end%>
+ </div>
+ </div>
 <div class="row" style = "border-right: 3px solid; border-left: 3px solid;">
 	<div class="col-md-3">
 		
 			Why use this guide 
 		</div>
 		<div class="col-md-9" style = "border-left: 3px solid;">
-			<%= f.fields_for :ig_theme_description do |i|%>
-			<%= i.text_area :text, :placeholder => "theme Description"%>
+			<%= f.fields_for :why_use_this_guide do |i|%>
+			<%= i.text_area :text, :placeholder => "In this guide we invite you to think..."%>
 			<%end%>
 		</div>
 </div>
@@ -96,10 +118,23 @@
 			<ul>
 			    <%= f.fields_for :game_basics_prompts do |i|%>
 				  <li>
-					<%= i.text_field :prompt, :placeholder => "Theme Insight Prompt"%>
+					<%= i.text_field :prompt1, :placeholder => "Game Basics Prompt"%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt2, :placeholder => "Game Basics Prompt"%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt3, :placeholder => "Game Basics Prompt"%>
+				  </li>
+				  <li class = "hide" id="basic"> 
+					<%= i.text_field :prompt4, :placeholder => "Game Basics Prompt"%>
+				  </li>
+				  <li class = "hide" id = "basic2">
+					<%= i.text_field :prompt5, :placeholder => "Game Basics Prompt"%>
 				  </li>
 				<%end%>
 			</ul>
+			<%= link_to_function "Add Prompt", "addRowBasic()" %> <%= link_to_function "Remove Prompt", "removeRowBasic()", class: "hide", id: "removeBasic"%>
 		</div>
 </div>
 <div class="row" style = "border: 3px solid;">
@@ -111,10 +146,23 @@
 			<ul>
 			    <%= f.fields_for :theme_insight_prompts do |i|%>
 				  <li>
-					<%= i.text_field :prompt, :placeholder => "Theme Insight Prompt"%>
+					<%= i.text_field :prompt1, :placeholder => "Theme Insight Prompt"%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt2, :placeholder => "Theme Insight Prompt"%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt3, :placeholder => "Theme Insight Prompt"%>
+				  </li>
+				  <li class = "hide" id = "theme">
+					<%= i.text_field :prompt4, :placeholder => "Theme Insight Prompt"%>
+				  </li>
+				  <li class = "hide" id = "theme2">
+					<%= i.text_field :prompt5, :placeholder => "Theme Insight Prompt"%>
 				  </li>
 				<%end%>
 			</ul>
+<%= link_to_function "Add Prompt", "addRowTheme()" %> <%= link_to_function "Remove Prompt", "removeRowTheme()", class: "hide", id: "removeTheme"%>
 		</div>
 </div>
 <div class="row" style = "border: 3px solid;">
@@ -126,10 +174,23 @@
 			<ul>
 			    <%= f.fields_for :world_connections_prompts do |i|%>
 				  <li>
-					<%= i.text_field :prompt, :placeholder => "Theme Insight Prompt"%>
+					<%= i.text_field :prompt1, :placeholder => "World Connections Prompt"%>
+				  </li>
+				  <li >
+					<%= i.text_field :prompt2, :placeholder => "World Connections Prompt"%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt3, :placeholder => "World Connections Prompt"%>
+				  </li>
+				  <li class="hide" id = "world">
+					<%= i.text_field :prompt4, :placeholder => "World Connections Prompt"%>
+				  </li>
+				  <li class = "hide" id = "world2">
+					<%= i.text_field :prompt5, :placeholder => "World Connections Prompt"%>
 				  </li>
 				<%end%>
 			</ul>
+			<%= link_to_function "Add Prompt", "addRowWorld()" %> <%= link_to_function "Remove Prompt", "removeRowWorld()", class: "hide", id: "removeWorld"%>
 		</div>
 </div>
 <%=f.submit "create impact guide", class: "btn btn-primary"%>

@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20141015214236) do
 
   create_table "ig_theme_descriptions", force: true do |t|
     t.string   "text",       limit: 1024
+    t.integer  "themeId"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
