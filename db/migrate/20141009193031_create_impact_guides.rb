@@ -7,6 +7,7 @@ class CreateImpactGuides < ActiveRecord::Migration
       t.integer :category_id
       t.string :age
       t.string :time
+      t.string :why_use_this_guide
       
       t.timestamps
     end

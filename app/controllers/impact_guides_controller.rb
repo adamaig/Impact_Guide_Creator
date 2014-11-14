@@ -19,8 +19,8 @@ class ImpactGuidesController < ApplicationController
 
 
   def create
-  # byebug
-   @impactGuide= ImpactGuide.new(age: params[:impact_guide][:age], time:  params[:impact_guide][:time], category_id: params[:impact_guide][:category_id])
+  #byebug
+   @impactGuide= ImpactGuide.new(age: params[:impact_guide][:age], time:  params[:impact_guide][:time], category_id: params[:impact_guide][:category_id], why_use_this_guide:  params[:impact_guide][:why_use_this_guide] )
     if @impactGuide.save
       @impactGuide.save!
       theme = Theme.new(params[:impact_guide][:theme].permit!,  ig_id: @impactGuide.id)
@@ -39,14 +39,12 @@ class ImpactGuidesController < ApplicationController
             igt.update(themeId: theme.id)
            end
           else
-            byebug
             game.delete
             theme.delete
             @impactGuide.delete
            return render 'new'
           end
         else
-          byebug
           theme.delete
           @impactGuide.delete
          return render 'new'
@@ -57,11 +55,9 @@ class ImpactGuidesController < ApplicationController
        return render 'new'
       end
     else
-     byebug
      return render 'new'
     end
    unless prompts 
-      byebug
       theme.delete
       @impact_guide.delete
       game.delete
@@ -111,14 +107,14 @@ class ImpactGuidesController < ApplicationController
           x+=1
         end
       end
-      x=0
+      x=1
       (params[:impact_guide][:theme_insight_prompts].permit!).each do |k, v|
         if v != ""
           ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 2)
           x+=1
         end
       end
-      x=0
+      x=1
        params[:impact_guide][:world_connections_prompts].permit!.each do |k, v|
        if v != ""
           ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 3)

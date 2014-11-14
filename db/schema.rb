@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20141015214236) do
     t.integer  "category_id"
     t.string   "age"
     t.string   "time"
+    t.string   "why_use_this_guide"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

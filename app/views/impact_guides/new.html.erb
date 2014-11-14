@@ -104,9 +104,9 @@
 			Why use this guide 
 		</div>
 		<div class="col-md-9" style = "border-left: 3px solid;">
-			<%= f.fields_for :why_use_this_guide do |i|%>
-			<%= i.text_area :text, :placeholder => "In this guide we invite you to think..."%>
-			<%end%>
+			
+			<%= f.text_area :why_use_this_guide, :placeholder => "In this guide we invite you to think..."%>
+			
 		</div>
 </div>
 <div class="row"style = "border: 3px solid;">
