@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20141015214236) do
   create_table "games", force: true do |t|
     t.string   "title"
     t.string   "image"
-    t.string   "quote"
+    t.text     "quote"
     t.string   "source"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20141015214236) do
 
   create_table "ig_about_descriptions", force: true do |t|
     t.integer  "game_id"
-    t.string   "text"
+    t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -16,6 +16,9 @@ class ImpactGuidesController < ApplicationController
 
 
   end
+  def index
+    @all = ImpactGuide.all
+  end
 
 
   def create
@@ -35,7 +38,7 @@ class ImpactGuidesController < ApplicationController
            igt = IgThemeDescription.new(text: params[:impact_guide][:ig_theme_description][:text])
            if igt.save
             igt.save!
-            @impactGuide.update(creator_id: @id, theme_id: theme.id, game_id: game.id)
+            @impactGuide.update(creator_id: @id, theme_id: theme.id, game_id: game.id, creator_id: User.find(session[:user_id]).id)
             igt.update(themeId: theme.id)
            end
           else
