@@ -121,12 +121,15 @@ function addRowWorld()
 		if(document.getElementById("world2").className == "undefined")
 		{
 			document.getElementById("world2").className =  "hide";
+			document.getElementById("world2").value = "";
 
 		}	
 		else if (document.getElementById("world").className == "undefined")
 		{
 			document.getElementById("world").className = "hide";
 			document.getElementById("removeWorld").className = "hide";
+			document.getElementById("world").value = "";
+
 		}
 		else
 		{

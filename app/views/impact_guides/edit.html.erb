@@ -1,0 +1,246 @@
+<div class="container">
+
+<div class"row">
+	<div class="col-md-3 col-md-offset-9">
+		<img src="http://gamesandimpact.org/wp-content/themes/cgi/img/logo-tagline.png" class="img-responsive" style ="height: 4em; width: 12em;">
+	</div>
+	
+</div>
+<% if @impactGuide.errors.any? %>
+    <div id="error_explanation">
+    <div class="alert alert-danger">
+      The form contains <%= pluralize(@impactGuide.errors.count, "error") %>.
+    </div>
+    <ul>
+    <% @impactGuide.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<%= form_for(@impactGuide) do |f|%>
+<div class ="row">
+	<div class="col-md-3" >
+		<% array = ImpactArea.all.map { |s| ([s.name, s.id]) } %>
+		<%= f.select :category_id, options_for_select(array) %>
+		<% @id = current_user.id%>
+	</div>
+	<div class="col-md-9 ">
+		
+			
+			<div >
+				<%= f.fields_for :theme do |t|%>
+				<%= t.text_field :name, :value => Theme.find(@impactGuide.theme_id).name%>
+				<%end%>
+			</div>
+				
+	</div>
+	
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<%= f.fields_for :game do |g|%>
+		<%= g.text_field :title, :value => Game.find(@impactGuide.game_id).title%>
+		<%end%>
+	</div>
+	<div class="col-md-9">
+		<%= f.fields_for :gameDropDown do |g|%>
+		<%games = Game.all.map {|g| ([g.title, g.title])} %> <% games.insert(0, ["or choose from existing games", ""])%>
+		<%= g.select :title, options_for_select(games) %>
+		<%end%>
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">	
+		<%= f.text_field :age, :placeholder => "Age"%>
+	</div>
+	
+	<div class="col-md-3 ">
+		<%= f.text_field :time, :placeholder => "Time"%>	
+	</div>
+	
+	<div class="col-md-6" style="visibility: hidden;">
+		asdfdsf
+	</div>
+</div>
+<div class="row">
+	<div class = "col-md-12">
+		<%=f.fields_for :game do |g|%>
+		<%g.text_area :quote, :value => Game.find(@impactGuide.game_id).quote%>
+		<%end%>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<%=f.fields_for :game do |g|%>
+		<%g.text_field :source, :value => Game.find(@impactGuide.game_id).source%>
+		<%end%>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		
+		<div>
+			<%= f.fields_for :ig_about_description do |i|%>
+			<%= i.text_area :text, :value => IgAboutDescription.find_by(game_id: Game.find(@impactGuide.game_id)).text%>
+			<%end%>
+		</div>
+	</div>
+</div>
+<div class="row" >
+  <div class="col-md-12">
+  <%= f.fields_for :ig_theme_description do |i|%>
+       <%= i.text_area :text, :value => IgThemeDescription.find_by(themeID: Theme.find(@impactGuide.theme_id)).text%>
+   <%end%>
+ </div>
+ </div>
+<div class="row" style = "border-right: 3px solid; border-left: 3px solid;">
+	<div class="col-md-3">
+		
+			Why use this guide 
+		</div>
+		<div class="col-md-9" style = "border-left: 3px solid;">
+			
+			<%= f.text_area :why_use_this_guide, :placeholder => "In this guide we invite you to think..."%>
+			
+		</div>
+</div>
+<div class="row"style = "border: 3px solid;">
+	<div class="col-md-3" >
+		
+			Game Basics 
+		</div>
+		<div class="col-md-9"style = "border-left: 3px solid;">
+			<ul>
+			    <%= f.fields_for :game_basics_prompts do |i|%>
+				  <li>
+					<%= i.text_field :prompt1, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 1, category_id: 1).prompt%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt2,value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 2, category_id: 1).prompt%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt3, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 3, category_id: 1).prompt%>
+				  </li>
+				  
+				  <% if  ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 4, category_id: 1) %>
+				   	<li class ="undefined" id ="basic">
+						<%= i.text_field :prompt3, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 4, category_id: 1).prompt%>
+				  	</li>
+				  <% else %>
+
+				  		<li class = "hide" id="basic"> 
+							<%= i.text_field :prompt4, :placeholder => "Game Basics Prompt"%>
+				  		</li>
+				  <%end%>
+
+				   <% if  ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 5, category_id: 1)%>
+				   	<li class ="undefined" id ="basic"2>
+						<%= i.text_field :prompt3, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 5, category_id: 1).prompt%>
+				  	</li>
+				  <% else %>
+
+				  		<li class = "hide" id="basic2"> 
+							<%= i.text_field :prompt5, :placeholder => "Game Basics Prompt"%>
+				  		</li>
+				  <%end%>
+				<%end%>
+			</ul>
+			<%= link_to_function "Add Prompt", "addRowBasic()" %> <%= link_to_function "Remove Prompt", "removeRowBasic()", class: "undefined", id: "removeBasic"%>
+		</div>
+</div>
+<div class="row" style = "border: 3px solid;">
+	<div class="col-md-3" >
+		
+			Theme Insights 
+		</div>
+		<div class="col-md-9"style = "border-left: 3px solid;">
+			<ul>
+			    <%= f.fields_for :theme_insight_prompts do |i|%>
+				  <li>
+					<%= i.text_field :prompt1, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 1, category_id: 2).prompt%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt2, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 2, category_id: 2).prompt%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt3, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 3, category_id: 2).prompt%>
+				  </li>
+				   <% if  ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 4, category_id: 2) %>
+				   	<li id="theme" class ="undefined">
+						<%= i.text_field :prompt3, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 4, category_id: 2).prompt%>
+				  	</li>
+				  <% else %>
+
+				  		<li class = "hide" id="theme"> 
+							<%= i.text_field :prompt4, :placeholder => "Game Basics Prompt"%>
+				  		</li>
+				  <%end%>
+
+				  <% if  ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 5, category_id: 2) %>
+				   	<li id="theme2" class ="undefined">
+						<%= i.text_field :prompt3, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 5, category_id: 2).prompt%>
+				  	</li>
+				  <% else %>
+
+				  		<li class = "hide" id="theme2"> 
+							<%= i.text_field :prompt5, :placeholder => "Game Basics Prompt"%>
+				  		</li>
+				  <%end%>
+
+				<%end%>
+			</ul>
+<%= link_to_function "Add Prompt", "addRowTheme()" %> <%= link_to_function "Remove Prompt", "removeRowTheme()", class: "undefined", id: "removeTheme"%>
+		</div>
+</div>
+<div class="row" style = "border: 3px solid;">
+	<div class="col-md-3"  >
+		
+			World Connections 
+		</div>
+		<div class="col-md-9" style = "border-left: 3px solid;">
+			<ul>
+			    <%= f.fields_for :world_connections_prompts do |i|%>
+				  <li>
+					<%= i.text_field :prompt1, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 1, category_id: 3).prompt%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt2, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 2, category_id: 3).prompt%>
+				  </li>
+				  <li>
+					<%= i.text_field :prompt3, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 3, category_id: 3).prompt%>
+				  </li>
+				   <% if  ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 4, category_id: 3) %>
+				   	<li id="world" class ="undefined">
+						<%= i.text_field :prompt3, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 4, category_id: 3).prompt%>
+				  	</li>
+				  <% else %>
+
+				  		<li class = "hide" id="world"> 
+							<%= i.text_field :prompt4, :placeholder => "Game Basics Prompt"%>
+				  		</li>
+				  <%end%>
+
+				  <% if  ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 5, category_id: 3) %>
+				   	<li id="world2" class ="undefined">
+						<%= i.text_field :prompt3, value: ImpactGuidePrompt.find_by(impact_guide_id: @impactGuide.id, position: 5, category_id: 3).prompt%>
+				  	</li>
+				  <% else %>
+
+				  		<li class = "hide" id="world2"> 
+							<%= i.text_field :prompt5, :placeholder => "Game Basics Prompt"%>
+				  		</li>
+				  <%end%>
+				<%end%>
+			</ul>
+			<%= link_to_function "Add Prompt", "addRowWorld()" %> <%= link_to_function "Remove Prompt", "removeRowWorld()", class: "undefinded", id: "removeWorld"%>
+		</div>
+</div>
+<%=f.submit "create impact guide", class: "btn btn-primary"%>
+<%end%>
+</div>
+
+

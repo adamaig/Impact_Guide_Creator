@@ -29,13 +29,13 @@
 
 	<div class="row">
 		<div class = "aboutGame">
-		<strong>	ABOUT <%= Game.find(@impactGuide.game_id).title %> </strong><br><%= IgAboutDescription.find_by(game_id: Game.find(@impactGuide.game_id)).text%>
+		<strong>	ABOUT <%= Game.find(@impactGuide.game_id).title %> </strong><br><%= IgAboutDescription.find_by(ig_id: @impactGuide.id).text%>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class = "aboutTheme">
-			<strong> THEME FOR THIS GUIDE: <%= Theme.find(@impactGuide.theme_id).name %></strong><br><%= IgThemeDescription.find_by(themeId: Theme.find(@impactGuide.theme_id).id).text%>
+			<strong> THEME FOR THIS GUIDE: <%= Theme.find(@impactGuide.theme_id).name %></strong><br><%= IgThemeDescription.find_by(ig_id: @impactGuide.id).text%>
 		</div>
 	</div>
 	<div class= "row promptSection">

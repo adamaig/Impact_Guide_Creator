@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20141015214236) do
   create_table "ig_about_descriptions", force: true do |t|
     t.integer  "game_id"
     t.text     "text"
+    t.integer  "ig_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(version: 20141015214236) do
   create_table "ig_theme_descriptions", force: true do |t|
     t.string   "text",       limit: 1024
     t.integer  "themeId"
+    t.integer  "ig_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

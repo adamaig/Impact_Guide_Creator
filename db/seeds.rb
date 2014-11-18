@@ -5,8 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-PromptCategory.create(moniker: "theme_insights")
 PromptCategory.create(moniker: "game_basics")
+PromptCategory.create(moniker: "theme_insights")
 PromptCategory.create(moniker: "world_connections")
 
 ImpactArea.create(name: "Educational Relevancy")
