@@ -4,38 +4,38 @@
 <div class = "container">
 	<div class="row">
 		<div class = "fist line">
-			<%=ImpactArea.find(@impactGuide.category_id).name %> | <%= Theme.find(@impactGuide.theme_id).name %>
+			<%=@category %> | <%= @themeName %>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class = "gameName">
-			<%= Game.find(@impactGuide.game_id).title %>: IMPACT GUIDE
+			<%= @gameTitle %>: IMPACT GUIDE
 		</div>
 	</div>
 	<div class="row">
 		<div class = "ageTime">
-			<%= @impactGuide.age %> | <%= @impactGuide.time %>
+			<%= @age %> | <%= @time %>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class = " col-md-9">
 			<div class = "quote">
-				<%= Game.find(@impactGuide.game_id).quote %> <br> -<%= Game.find(@impactGuide.game_id).source %>
+				<%= @quote %> <br> -<%= @source %>
 			</div>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class = "aboutGame">
-		<strong>	ABOUT <%= Game.find(@impactGuide.game_id).title %> </strong><br><%= IgAboutDescription.find_by(ig_id: @impactGuide.id).text%>
+		<strong>	ABOUT <%= @gameTitle %> </strong><br><%= @about %>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class = "aboutTheme">
-			<strong> THEME FOR THIS GUIDE: <%= Theme.find(@impactGuide.theme_id).name %></strong><br><%= IgThemeDescription.find_by(ig_id: @impactGuide.id).text%>
+			<strong> THEME FOR THIS GUIDE: <%= @themeName %></strong><br><%= @themeAbout%>
 		</div>
 	</div>
 	<div class= "row promptSection">
@@ -44,7 +44,7 @@
 		</div>
 		
 		<div class = "pormpts col-md-9">
-			<%= @impactGuide.why_use_this_guide %>
+			<%= @whyUse %>
 			</div>
 
 	</div>
@@ -56,9 +56,9 @@
 		
 		<div class = "pormpts col-md-9">
 			<ul>
-			<%for i in 1..5%>
-				<% if ImpactGuidePrompt.find_by(position: i, impact_guide_id: @impactGuide.id, category_id: 1) %>
-				<li><%= ImpactGuidePrompt.find_by(position: i, impact_guide_id: @impactGuide.id, category_id: 1).prompt %></li><%end%>
+			<%@basicPrompts.each do |prompt|%>
+				
+				<li><%= prompt[0] %> [+<%=prompt[1]%>] </li>
 			<%end%>
 			</ul>
 
@@ -72,9 +72,9 @@
 		
 		<div class = "pormpts col-md-9">
 			<ul>
-			<%for i in 1..5%>
-				<% if ImpactGuidePrompt.find_by(position: i, impact_guide_id: @impactGuide.id, category_id: 2) %>
-				<li><%= ImpactGuidePrompt.find_by(position: i, impact_guide_id: @impactGuide.id, category_id: 2).prompt %></li><%end%>
+			<% @themePrompts.each do |prompt| %>
+				
+				<li><%= prompt[0] %> [+<%=prompt[1]%>] </li>
 			<%end%>
 			</ul>
 
@@ -88,9 +88,9 @@
 		
 		<div class = "pormpts col-md-9">
 			<ul>
-			<%for i in 1..5%>
-				<% if ImpactGuidePrompt.find_by(position: i, impact_guide_id: @impactGuide.id, category_id: 3) %>
-				<li><%= ImpactGuidePrompt.find_by(position: i, impact_guide_id: @impactGuide.id, category_id: 3).prompt %></li><%end%>
+			<%@worldPrompts.each do |prompt| %>
+				
+				<li><%= prompt[0] %> [+<%=prompt[1]%>] </li>
 			<%end%>
 			</ul>
 

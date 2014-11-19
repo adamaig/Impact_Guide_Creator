@@ -14,7 +14,9 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require turbolinks
+// require_tree jsPDF
 //= require_tree .
+
 
 function addRowBasic()
 {

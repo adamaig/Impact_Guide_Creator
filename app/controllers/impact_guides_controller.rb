@@ -3,11 +3,7 @@ class ImpactGuidesController < ApplicationController
 
   def new
     @impactGuide = ImpactGuide.new
-    # 4.times { 
-     # @impactGuide.impact_guide_prompts.build( category: PromptCategory.where( moniker: "game_basics").first ) 
-      # }
-    # 4.times { @impactGuide.impact_guide_prompts.build( category: PromptCategory.where( moniker: "theme_insights").first ) }
-    # 4.times { @impactGuide.impact_guide_prompts.build( category: PromptCategory.where( moniker: "world_connections").first ) }
+    @points = [["[+1]", 1], ["[+2]",2], ["[+3]", 3]]
   end
   
   def edit
@@ -17,6 +13,19 @@ class ImpactGuidesController < ApplicationController
 
   def show
     @impactGuide = ImpactGuide.find(params[:id])
+    @category = ImpactArea.find(@impactGuide.category_id).name
+    @themeName = Theme.find(@impactGuide.theme_id).name
+    @gameTitle = Game.find(@impactGuide.game_id).title
+    @age = @impactGuide.age
+    @time = @impactGuide.time
+    @quote =  Game.find(@impactGuide.game_id).quote
+    @source = Game.find(@impactGuide.game_id).source
+    @about = IgAboutDescription.find_by(ig_id: @impactGuide.id).text
+    @themeAbout = IgThemeDescription.find_by(ig_id: @impactGuide.id).text
+    @whyUse = @impactGuide.why_use_this_guide
+    @basicPrompts = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id, category_id: 1).order(:position).map { |x| [x.prompt, x.points]}
+    @themePrompts = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id, category_id: 2).order(:position).map { |x| [x.prompt, x.points]}
+    @worldPrompts = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id, category_id: 3).order(:position).map { |x| [x.prompt, x.points]}
   end
 
   def index
@@ -66,6 +75,7 @@ class ImpactGuidesController < ApplicationController
 
   def create
   #byebug
+  @points = [["[+1]", 1], ["[+2]",2], ["[+3]", 3]]
    @impactGuide= ImpactGuide.new(age: params[:impact_guide][:age], time:  params[:impact_guide][:time], category_id: params[:impact_guide][:category_id], why_use_this_guide:  params[:impact_guide][:why_use_this_guide] )
     if @impactGuide.save
       @impactGuide.save!
@@ -121,7 +131,7 @@ class ImpactGuidesController < ApplicationController
           x+= 1 
         end
       end
-      if x <3
+      if x <8
         false
       end
        x = 0 
@@ -130,7 +140,7 @@ class ImpactGuidesController < ApplicationController
           x+= 1 
         end
       end
-      if x <3
+      if x <8
         false
       end
        x = 0 
@@ -139,7 +149,7 @@ class ImpactGuidesController < ApplicationController
           x+= 1 
         end
       end
-      if x <3
+      if x <8
         false
       end
       true
@@ -147,24 +157,33 @@ class ImpactGuidesController < ApplicationController
 
     def savePrompts(ig)
        x= 1
+       impact = ImpactGuidePrompt.new
        params[:impact_guide][:game_basics_prompts].permit!.each do |k, v|
-        if v != ""
-          ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 1)
+        if v != "" && v != "1" && v != "2" && v != "3"
+          impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 1)
           x+=1
+        elsif (v == "1" || v == "2" || v == "3") && !impact.points
+          impact.update(points: v)
         end
       end
       x=1
+      impact = ImpactGuidePrompt.new
       (params[:impact_guide][:theme_insight_prompts].permit!).each do |k, v|
-        if v != ""
-          ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 2)
+        if v != "" && v != "1" && v != "2" && v != "3"
+         impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 2)
           x+=1
+        elsif v == "1" || v == "2" || v == "3"  && !impact.points
+          impact.update(points: v)
         end
       end
       x=1
+       impact = ImpactGuidePrompt.new
        params[:impact_guide][:world_connections_prompts].permit!.each do |k, v|
-       if v != ""
-          ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 3)
+       if v != "" && v != "1" && v != "2" && v != "3"
+         impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 3)
           x+=1
+        elsif v == "1" || v == "2" || v == "3"  && !impact.points
+          impact.update(points: v)
         end
       end
     end
