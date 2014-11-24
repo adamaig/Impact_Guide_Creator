@@ -1,6 +1,4 @@
-<%if !current_user%>
-<%= notSignedIn %>
-<%else%>
+
 <div class = "container" id= "pdf">
 	<div class="row">
 		<div class = "fist line">
@@ -38,27 +36,41 @@
 			<strong> THEME FOR THIS GUIDE: <%= @themeName %></strong><br><%= @themeAbout%>
 		</div>
 	</div>
+	<br>
 	<div class= "row promptSection">
-		<div class= "col-md-3">
+		<div class= "col-md-2 category">
 			Why use this guide
 		</div>
 		
-		<div class = "pormpts col-md-9">
+		<div class = "pormpts col-md-10">
 			<%= @whyUse %>
+			<br><br>
 			</div>
 
 	</div>
 
 	<div class= "row promptSection">
-		<div class= "col-md-3">
+		<div class= "col-md-2 category">
 			Game Basics
 		</div>
 		
-		<div class = "pormpts col-md-9">
+		<div class = "pormpts col-md-10">
 			<ul>
+			<%= form_for(@response) do |g|%>
 			<%@basicPrompts.each do |prompt|%>
 				
-				<li><%= prompt[0] %> [+<%=prompt[1]%>] </li>
+				<li><%= prompt[0] %> [+<%=prompt[1]%>] 
+				<%if current_user && current_user.id != @impactGuide.creator_id %>
+					<br>
+						<%= g.fields_for(@responses[@counter])  do |f|%>
+							<%= f.text_field :text,  class:  'form-control' %>
+							<%= f.hidden_field :user_id,:value => current_user.id%>
+							<%= f.hidden_field :prompt_id, value: prompt[2] %>
+							<% @counter = @counter +1 %>
+
+						<%end%>
+					<%end%>
+				</li>
 			<%end%>
 			</ul>
 
@@ -66,15 +78,26 @@
 
 	</div>
 	<div class= "row promptSection">
-		<div class= "col-md-3">
+		<div class= "col-md-2 category">
 			Theme Insights
 		</div>
 		
-		<div class = "pormpts col-md-9">
+		<div class = "pormpts col-md-10">
 			<ul>
 			<% @themePrompts.each do |prompt| %>
 				
-				<li><%= prompt[0] %> [+<%=prompt[1]%>] </li>
+				<li><%= prompt[0] %> [+<%=prompt[1]%>] 
+					<%if current_user && current_user.id != @impactGuide.creator_id %>
+					<br>
+						<%= g.fields_for(@responses[@counter])  do |f|%>
+							<%= f.text_field :text,  class:  'form-control' %>
+							<%= f.hidden_field :user_id,:value => current_user.id%>
+							<%= f.hidden_field :prompt_id, value: prompt[2] %>
+							<% @counter = @counter +1 %>
+
+						<%end%>
+					<%end%>
+				</li>
 			<%end%>
 			</ul>
 
@@ -82,36 +105,39 @@
 
 	</div>
 		<div class= "row ">
-		<div class= "col-md-3">
+		<div class= "col-md-2 category">
 			World Connections
 		</div>
 		
-		<div class = "pormpts col-md-9">
+		<div class = "pormpts col-md-10">
 			<ul>
 			<%@worldPrompts.each do |prompt| %>
 				
-				<li><%= prompt[0] %> [+<%=prompt[1]%>] </li>
+				<li><%= prompt[0] %> [+<%=prompt[1]%>]
+					<%if current_user && current_user.id != @impactGuide.creator_id %>
+						<%if !Response.find_by(prompt_id: prompt[2]) %>
+						<br>
+							<%= g.fields_for(@responses[@counter])  do |f|%>
+								<%= f.text_field :text, class:  'form-control' %>
+								<%= f.hidden_field :user_id,:value => current_user.id%>
+								<%= f.hidden_field :prompt_id, value: prompt[2] %>
+								<% @counter = @counter +1 %>
+							<%end%>
+						<%else %>
+							<br>
+							Your answer: <%= Response.find_by(prompt_id: prompt[2]).text%>
+						<%end%>
+					<%end%>
+				 </li>
 			<%end%>
 			</ul>
 
 			</div>
+			<%=g.submit "submit response", class: "btn btn-primary"%>
+
+			<%end%>
 
 	</div>
-
-	 <button value = "click to save pdf" id= "save"/>
-			
-			
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -120,5 +146,5 @@
 
 
 </div>
-<%end%>
+
    

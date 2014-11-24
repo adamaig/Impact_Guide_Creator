@@ -25,3 +25,34 @@
 #cgiLogo{
 
 }
+#logo{
+	position: absolute;
+	margin-top: 3px;
+
+}
+.navbar{
+	background-color: #d9d9d9;
+
+}
+
+.category{
+	text-align: center;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.quote {
+	border-style: dashed;
+	background-color: gray;
+}
+
+.prompts{
+	border-left-width: 2px;
+	border-left-style: solid;
+	border-left-color: black;
+}
+.promptSection{
+	border-bottom: solid 2px black;
+	
+}
+

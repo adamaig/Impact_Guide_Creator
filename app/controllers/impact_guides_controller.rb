@@ -25,9 +25,19 @@ class ImpactGuidesController < ApplicationController
     @about = IgAboutDescription.find_by(ig_id: @impactGuide.id).text
     @themeAbout = IgThemeDescription.find_by(ig_id: @impactGuide.id).text
     @whyUse = @impactGuide.why_use_this_guide
-    @basicPrompts = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id, category_id: 1).order(:position).map { |x| [x.prompt, x.points]}
-    @themePrompts = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id, category_id: 2).order(:position).map { |x| [x.prompt, x.points]}
-    @worldPrompts = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id, category_id: 3).order(:position).map { |x| [x.prompt, x.points]}
+    @basicPrompts = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id, category_id: 1).order(:position).map { |x| [x.prompt, x.points, x.id]}
+    @themePrompts = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id, category_id: 2).order(:position).map { |x| [x.prompt, x.points, x.id]}
+    @worldPrompts = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id, category_id: 3).order(:position).map { |x| [x.prompt, x.points, x.id]}
+    @response = Response.new
+    len = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id).length
+    @responses = Array.new(len)
+    for i in 0..len do 
+      @responses[i] = "Response#{i}"
+      @responses[i]= @responses[i].to_sym
+    end
+    
+    @counter = 0;
+    #byebug
   end
 
   def index

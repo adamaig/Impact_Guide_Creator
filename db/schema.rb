@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141015214236) do
+ActiveRecord::Schema.define(version: 20141124191516) do
 
   create_table "games", force: true do |t|
     t.string   "title"
@@ -82,6 +82,16 @@ ActiveRecord::Schema.define(version: 20141015214236) do
 
   create_table "prompt_categories", force: true do |t|
     t.string   "moniker"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "responses", force: true do |t|
+    t.integer  "prompt_id"
+    t.integer  "user_id"
+    t.integer  "position"
+    t.integer  "points"
+    t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
