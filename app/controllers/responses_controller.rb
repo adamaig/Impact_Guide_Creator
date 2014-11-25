@@ -1,12 +1,19 @@
 class ResponsesController < ApplicationController
 	def create
-		#byebug
+	
 		 params[:response].each do |k,v| 
-		 	if v[:text] != "" 
-		 		Response.create(v)
-		 		p = v[:points].to_i + current_user.points
+		 	if v[:text] != "" && !v[:id]
+		 		r = Response.create(v)
+		 		r.update(points: ImpactGuidePrompt.find(r.prompt_id).points)
+		 		p = r.points + current_user.points
 		 		current_user.update(points: p)
+		 	elsif v[:text] != "" && v[:id]
+		 		r = Response.find(v[:id])
+		 		r.update(text: v[:text])
 		 	end
 		 end
+		 redirect_to :back
 	end
+
+	
 end

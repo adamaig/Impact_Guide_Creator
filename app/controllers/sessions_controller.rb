@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def create
     user = User.from_omniauth(env["omniauth.auth"])
-    if user.points == null
+    if !user.points 
       user.update(points: 0)
     end
     session[:user_id] = user.id

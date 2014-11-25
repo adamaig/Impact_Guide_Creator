@@ -120,3 +120,22 @@ function addRowWorld()
 			alert("you must have at least 3 prompts");
 		}
 	}
+
+	function showRemoveEdit(q)
+	{
+		var x = "" +q;
+		if(document.getElementById(x).className == "hide")
+		{
+			document.getElementById(x).className =  document.getElementById(x).className.replace( "hide");
+		}
+		else document.getElementById(x).className = "hide";
+	}
+
+
+
+
+
+
+
+
+

@@ -2,7 +2,8 @@ GoogleAuthExample::Application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
-  get 'profile', to: 'sessions#show', as: 'profile'
+ 
+  get 'impact_guides', to: 'impact_guides#index', as:'impact_guides'
   
   
   #template', via: 'get'
@@ -11,7 +12,8 @@ GoogleAuthExample::Application.routes.draw do
   resources :sessions, only: [:create, :destroy, :show]
   resource :home, only: [:show]
   resources :impact_guides
-  resources :responses, only: [:create, :destroy]
+  resources :responses, only: [:create, :destroy, :update]
+  resources :users, only: [:show, :index]
   
   root to: "home#show"
 end
