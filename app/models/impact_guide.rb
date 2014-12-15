@@ -5,7 +5,8 @@ class ImpactGuide < ActiveRecord::Base
   has_many :world_connections_prompts , -> { where( category: PromptCategory.where( moniker: "world_connections").first ).order("id ASC") }
   validates :age, presence: true, length: { minimum: 1, maximum:15 }
   validates :time, presence: true, length: { minimum: 1, maximum:15 }
-  
+  has_attached_file :cover, :styles => { :thumb => ["150x150#", :png] }
+  validates_attachment_content_type :cover, :content_type => /\Aimage\/.*\Z/
 =begin  def theme
     @theme = Theme.new
   end

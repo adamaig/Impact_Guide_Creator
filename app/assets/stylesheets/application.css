@@ -44,6 +44,7 @@
 .quote {
 	border-style: dashed;
 	background-color: gray;
+	min-height: 150px;
 }
 
 .prompts{
@@ -54,5 +55,8 @@
 .promptSection{
 	border-bottom: solid 2px black;
 	
+}
+.box {
+	width: 50px;
 }
 

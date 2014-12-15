@@ -3,6 +3,7 @@ class CreateResponses < ActiveRecord::Migration
     create_table :responses do |t|
       t.integer :prompt_id
       t.integer :user_id
+      t.integer :impact_guide_id
       t.integer :position
       t.integer :points
       t.text :text

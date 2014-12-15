@@ -1,0 +1,14 @@
+<div class = "pic">
+<%= image_tag @user.avatar.url(:medium) %>
+<br>
+Points: <%= @points%>
+</div>
+<div "guides">
+	<strong> Impact Guides You Made </strong>
+	<br>
+	<ul>
+	<% @impactGuides.each do |x| %>
+		<li><%= link_to  Game.find(x.game_id).title, x %></li>
+	<%end%>
+</ul>
+</div> 

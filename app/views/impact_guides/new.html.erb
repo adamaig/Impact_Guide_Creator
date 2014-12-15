@@ -13,7 +13,7 @@
     </ul>
   </div>
 <% end %>
-<%= form_for(@impactGuide) do |f|%>
+<%= form_for @impactGuide, :html => { :multipart => true } do |f|%>
 <div class ="row">
 	<div class="col-md-3" >
 		<% array = ImpactArea.all.map { |s| ([s.name, s.id]) } %>
@@ -62,25 +62,26 @@
 	</div>
 </div>
 <div class="row">
-	<div class = "col-md-12">
+	<div class = "col-md-9">
 		<%=f.fields_for :game do |g|%>
-		<%g.text_area :quote, :placeholder => "Quote"%>
+		<%g.text_area :quote, :placeholder => "Quote", class:  'form-control'%>
+		<%end%>
+		<%=f.fields_for :game do |g|%>
+		<%g.text_field :source, :placeholder => "--Source, Position, Company", class:  'form-control'%>
 		<%end%>
 	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-		<%=f.fields_for :game do |g|%>
-		<%g.text_field :source, :placeholder => "--Source, Position, Company"%>
-		<%end%>
+	<div class = "col-md-3">
+  		<strong> Select a cover image </strong><br>
+  		<%= f.file_field :cover %>
 	</div>
 </div>
+
 <div class="row">
 	<div class="col-md-12">
 		
 		<div>
 			<%= f.fields_for :ig_about_description do |i|%>
-			<%= i.text_area :text, :placeholder => "Game Description"%>
+			<%= i.text_area :text, :placeholder => "Game Description",class:  'form-control'%>
 			<%end%>
 		</div>
 	</div>
@@ -88,7 +89,7 @@
 <div class="row" >
   <div class="col-md-12">
   <%= f.fields_for :ig_theme_description do |i|%>
-       <%= i.text_area :text, :placeholder => "theme Description"%> 
+       <%= i.text_area :text, :placeholder => "theme Description",class:  'form-control'%> 
    <%end%>
  </div>
  </div>
@@ -99,7 +100,7 @@
 		</div>
 		<div class="col-md-9" style = "border-left: 3px solid;">
 			
-			<%= f.text_area :why_use_this_guide, :placeholder => "In this guide we invite you to think..."%>
+			<%= f.text_area :why_use_this_guide, :placeholder => "In this guide we invite you to think...",class:  'form-control'%>
 			
 		</div>
 </div>
@@ -111,24 +112,26 @@
 		<div class="col-md-9"style = "border-left: 3px solid;">
 			<ul>
 			    <%= f.fields_for :game_basics_prompts do |i|%>
-				  <li>
+				  <li>						
 					<%= i.text_field :prompt1, :placeholder => "Game Basics Prompt"%>
-					<%= i.select :points1, options_for_select(@points)%>
+				
+					<%= i.select :points1, options_for_select(@points), class: "box"%>
+
 				  </li>
 				  <li>
-					<%= i.text_field :prompt2, :placeholder => "Game Basics Prompt"%>
+					<%= i.text_field :prompt2, :placeholder => "Game Basics Prompt",class:  'form-control'%>
 					<%= i.select :points2, options_for_select(@points)%>
 				  </li>
 				  <li>
-					<%= i.text_field :prompt3, :placeholder => "Game Basics Prompt"%>
+					<%= i.text_field :prompt3, :placeholder => "Game Basics Prompt",class:  'form-control'%>
 					<%= i.select :points3, options_for_select(@points)%>
 				  </li>
 				  <li class = "hide" id="basic"> 
-					<%= i.text_field :prompt4, :placeholder => "Game Basics Prompt"%>
+					<%= i.text_field :prompt4, :placeholder => "Game Basics Prompt",class:  'form-control'%>
 					<%= i.select :points4, options_for_select(@points)%>
 				  </li>
 				  <li class = "hide" id = "basic2">
-					<%= i.text_field :prompt5, :placeholder => "Game Basics Prompt"%>
+					<%= i.text_field :prompt5, :placeholder => "Game Basics Prompt",class:  'form-control'%>
 					<%= i.select :points5, options_for_select(@points)%>
 				  </li>
 				<%end%>

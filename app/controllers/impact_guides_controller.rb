@@ -51,10 +51,18 @@ class ImpactGuidesController < ApplicationController
     @impactGuide= ImpactGuide.find(params[:id])
 
     @impactGuide.transaction do
+     if :cover
+      @impactGuide.update(age: params[:impact_guide][:age], 
+                         time: params[:impact_guide][:time], 
+                  category_id: params[:impact_guide][:category_id], 
+           why_use_this_guide: params[:impact_guide][:why_use_this_guide],
+                        cover: params[:impact_guide][:cover])
+     else
       @impactGuide.update(age: params[:impact_guide][:age], 
                          time: params[:impact_guide][:time], 
                   category_id: params[:impact_guide][:category_id], 
            why_use_this_guide: params[:impact_guide][:why_use_this_guide])
+     end
       
       Theme.transaction(requires_new: true) do
         Theme.find(@impactGuide.theme_id).update(params[:impact_guide][:theme].permit!)
@@ -91,7 +99,7 @@ class ImpactGuidesController < ApplicationController
   #defines an array to use if the code fails and renders new
   @points = [["[+1]", 1], ["[+2]",2], ["[+3]", 3]]
   #declares a new impact guide from the params hash
-   @impactGuide= ImpactGuide.new(age: params[:impact_guide][:age], time:  params[:impact_guide][:time], category_id: params[:impact_guide][:category_id], why_use_this_guide:  params[:impact_guide][:why_use_this_guide] )
+   @impactGuide= ImpactGuide.new(age: params[:impact_guide][:age], time:  params[:impact_guide][:time], category_id: params[:impact_guide][:category_id], why_use_this_guide:  params[:impact_guide][:why_use_this_guide], cover: params[:impact_guide][:cover])
     #if the impactGuide is valid it saves it and declares a theme if not it renders new
     if @impactGuide.save
       @impactGuide.save!

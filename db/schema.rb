@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125223507) do
+ActiveRecord::Schema.define(version: 20141215173449) do
 
   create_table "games", force: true do |t|
     t.string   "title"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20141125223507) do
   end
 
   create_table "ig_theme_descriptions", force: true do |t|
-    t.string   "text",       limit: 1024
+    t.text     "text"
     t.integer  "themeId"
     t.integer  "ig_id"
     t.datetime "created_at"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20141125223507) do
 
   create_table "ig_themedescs", force: true do |t|
     t.integer  "theme_id"
-    t.string   "ig_theme_desc"
+    t.text     "ig_theme_desc"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -78,6 +78,10 @@ ActiveRecord::Schema.define(version: 20141125223507) do
     t.string   "why_use_this_guide"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "cover_file_name"
+    t.string   "cover_content_type"
+    t.integer  "cover_file_size"
+    t.datetime "cover_updated_at"
   end
 
   create_table "prompt_categories", force: true do |t|
@@ -89,6 +93,7 @@ ActiveRecord::Schema.define(version: 20141125223507) do
   create_table "responses", force: true do |t|
     t.integer  "prompt_id"
     t.integer  "user_id"
+    t.integer  "impact_guide_id"
     t.integer  "position"
     t.integer  "points"
     t.text     "text"

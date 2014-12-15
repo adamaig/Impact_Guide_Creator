@@ -23,6 +23,9 @@
 				<%= @quote %> <br> -<%= @source %>
 			</div>
 		</div>
+		<div class="col-md-3">
+			<%=image_tag @impactGuide.cover.url(:thumb) %>
+		</div>
 	</div>
 
 	<div class="row">
@@ -173,8 +176,9 @@
 			</ul>
 
 			</div>
+			<% if current_user && current_user.id != @impactGuide.creator_id %>
 			<%=g.submit "submit response", class: "btn btn-primary"%>
-
+			<%end%>
 			<%end%>
 
 	</div>

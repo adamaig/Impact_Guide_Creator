@@ -67,19 +67,18 @@
 	</div>
 </div>
 <div class="row">
-	<div class = "col-md-12">
+	<div class = "col-md-9">
 		<%=f.fields_for :game do |g|%>
-		<%g.text_area :quote, :value => Game.find(@impactGuide.game_id).quote%>
+		<%g.text_area :quote, :value => Game.find(@impactGuide.game_id).quote, class:  'form-control'%>
+		<%end%>
+		<%=f.fields_for :game do |g|%>
+		<%g.text_field :source, :value => Game.find(@impactGuide.game_id).source, class:  'form-control'%>
 		<%end%>
 	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-		<%=f.fields_for :game do |g|%>
-		<%g.text_field :source, :value => Game.find(@impactGuide.game_id).source%>
-		<%end%>
+	<div class = "col-md-3">
+  		<strong> Select a cover image </strong><br>
+  		<%= f.file_field :cover %>
 	</div>
-</div>
 <div class="row">
 	<div class="col-md-12">
 		
