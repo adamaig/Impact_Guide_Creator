@@ -1,0 +1,29 @@
+<% @basicPrompts.each do |prompt|%>
+			
+	<li><%= prompt[0] %> [+<%=prompt[1]%>]
+		<%if current_user && current_user.id != @impactGuide.creator_id %>
+			<%if !Response.find_by(prompt_id: prompt[2], user_id: current_user.id) %>
+			<br>
+				<%= g.fields_for(@responses[@counter])  do |f|%>
+					<%= f.text_area :text, class:  'form-control' %>
+					<%= f.hidden_field :user_id,:value => current_user.id%>
+					<%= f.hidden_field :prompt_id, value: prompt[2] %>
+					<% @counter = @counter +1 %>
+				<%end%>
+			<%else %>
+				<br>
+				<strong> Your answer: <%= Response.find_by(prompt_id: prompt[2], user_id: current_user.id).text%></strong>
+				<%=link_to_function "Edit", "showRemoveEdit(#{prompt[2]})"%>
+				<%= g.fields_for(@responses[@counter]) do |f|%>
+					<div id = "<%= prompt[2]%>" class= "hide">
+						<%= f.text_area :text, class:  'form-control'%>
+						<%= f.hidden_field :user_id,:value => current_user.id%>
+						<%= f.hidden_field :prompt_id, value: prompt[2] %>
+						<%= f.hidden_field :id, value: Response.find_by(prompt_id: prompt[2], user_id: current_user.id).id %>
+						<% @counter = @counter +1 %>
+					</div>
+					<%end%>
+			<%end%>
+		<%end%>
+	 </li>
+<%end%>

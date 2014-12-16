@@ -24,7 +24,7 @@
 		
 			
 			<div >
-				<%= f.fields_for :theme do |t|%>
+				<%= f.fields_for @impactGuide.@theme do |t|%>
 				<%= t.text_field :name, :placeholder => "theme"%>
 				<%end%>
 			</div>

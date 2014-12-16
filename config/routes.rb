@@ -13,7 +13,7 @@ GoogleAuthExample::Application.routes.draw do
   resource :home, only: [:show]
   resources :impact_guides
   resources :responses, only: [:create, :destroy, :update]
-  resources :users, only: [:show, :index]
+  resources :users, only: [:show, :index, :edit, :update]
   
   root to: "home#show"
 end

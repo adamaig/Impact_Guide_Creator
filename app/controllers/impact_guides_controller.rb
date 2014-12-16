@@ -5,6 +5,7 @@ class ImpactGuidesController < ApplicationController
     @impactGuide = ImpactGuide.new
     #an array to be used for selecting the points to be used 
     @points = [["[+1]", 1], ["[+2]",2], ["[+3]", 3]]
+    @theme = Theme.new
   end
   
   def edit
@@ -32,8 +33,8 @@ class ImpactGuidesController < ApplicationController
     len = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id).length
     @responses = Array.new(len)
     for i in 0..len do 
-      @responses[i] = "Response#{i}"
-      @responses[i]= @responses[i].to_sym
+      @responses[i] = "Response#{i}".to_sym
+      #@responses[i]= @responses[i].to_sym
     end
     
     @counter = 0;
@@ -209,11 +210,11 @@ class ImpactGuidesController < ApplicationController
         #makes sure the prompt is not empty or a number
         if v != "" && v != "1" && v != "2" && v != "3"
           #creates an impact guide with the given variables but not points yet
-          impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 1)
+          impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 1, points: 0)
           #increments positon
           x+=1
         #if v is 1 2 or 3 and impact does not have points defined it adds points to impact
-        elsif (v == "1" || v == "2" || v == "3") && !impact.points
+        elsif (v == "1" || v == "2" || v == "3") && impact.points == 0
           impact.update(points: v)
         end
       end
@@ -222,9 +223,9 @@ class ImpactGuidesController < ApplicationController
       impact = ImpactGuidePrompt.new
       (params[:impact_guide][:theme_insight_prompts].permit!).each do |k, v|
         if v != "" && v != "1" && v != "2" && v != "3"
-         impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 2)
+         impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 2, points: 0)
           x+=1
-        elsif v == "1" || v == "2" || v == "3"  && !impact.points
+        elsif v == "1" || v == "2" || v == "3"  && impact.points == 0 
           impact.update(points: v)
         end
       end
@@ -233,9 +234,9 @@ class ImpactGuidesController < ApplicationController
        impact = ImpactGuidePrompt.new
        params[:impact_guide][:world_connections_prompts].permit!.each do |k, v|
        if v != "" && v != "1" && v != "2" && v != "3"
-         impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 3)
+         impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 3, points:0)
           x+=1
-        elsif v == "1" || v == "2" || v == "3"  && !impact.points
+        elsif v == "1" || v == "2" || v == "3"  && impact.points == 0
           impact.update(points: v)
         end
       end

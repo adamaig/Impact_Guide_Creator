@@ -1,0 +1,12 @@
+<%= image_tag @user.avatar.url(:medium) %>
+<%= form_for @user, :html => { :multipart => true } do |f|%>
+	<strong> Change your profile pic </strong>
+	<%= f.file_field :avatar %>
+	<br>
+	<%if @user.bio %>
+		<%= f.text_area :bio, :value => @user.bio ,class:  'form-control'%>
+	<%else%>
+		<%= f.text_area :bio, :placeholder => "change your bio",class:  'form-control'%>
+	<%end%>
+	<%=f.submit "Submit Changes", class: "btn btn-primary"%>
+<%end%>
