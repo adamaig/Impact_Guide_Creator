@@ -16,7 +16,7 @@ Points: <%= @points%>
 	<%else%>
 	<ul>
 		<% @impactGuides.each do |x| %>
-			<li><%= link_to  Game.find(x.game_id).title, x %></li>
+			<li><%= link_to  Game.find(x.game_id).title, x %> views: <%= x.views%></li>
 		<%end%>
 	</ul>
 	<%end%>
@@ -45,7 +45,7 @@ Points: <%= @points%>
 <div class = "bio">
 	<strong> Your Bio </strong>
 	<br>
-	<% if !@user.bio %>
+	<% if !@user.bio || @user.bio == "" %>
 		<%if current_user.id == @user.id %>
 			You have no bio yet
 		<%else%>

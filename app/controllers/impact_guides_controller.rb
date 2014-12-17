@@ -16,6 +16,13 @@ class ImpactGuidesController < ApplicationController
   def show
    #defines all the variables to be used in the show page
     @impactGuide = ImpactGuide.find(params[:id])
+    if current_user && current_user.id != @impactGuide.creator_id
+      count = @impactGuide.views + 1
+      @impactGuide.update(views: count)
+    elsif !current_user
+      count = @impactGuide.views + 1
+      @impactGuide.update(views: count)
+    end
     @category = ImpactArea.find(@impactGuide.category_id).name
     @themeName = Theme.find(@impactGuide.theme_id).name
     @gameTitle = Game.find(@impactGuide.game_id).title
@@ -90,9 +97,7 @@ class ImpactGuidesController < ApplicationController
         end
       end
     end
-
-
-
+    redirect_to @impactGuide
   end
 
   def create
@@ -100,7 +105,7 @@ class ImpactGuidesController < ApplicationController
   #defines an array to use if the code fails and renders new
   @points = [["[+1]", 1], ["[+2]",2], ["[+3]", 3]]
   #declares a new impact guide from the params hash
-   @impactGuide= ImpactGuide.new(age: params[:impact_guide][:age], time:  params[:impact_guide][:time], category_id: params[:impact_guide][:category_id], why_use_this_guide:  params[:impact_guide][:why_use_this_guide], cover: params[:impact_guide][:cover])
+   @impactGuide= ImpactGuide.new(age: params[:impact_guide][:age], time:  params[:impact_guide][:time], category_id: params[:impact_guide][:category_id], why_use_this_guide:  params[:impact_guide][:why_use_this_guide], cover: params[:impact_guide][:cover], views: 0)
     #if the impactGuide is valid it saves it and declares a theme if not it renders new
     if @impactGuide.save
       @impactGuide.save!

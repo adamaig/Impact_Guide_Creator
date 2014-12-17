@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20141215173449) do
     t.string   "age"
     t.string   "time"
     t.string   "why_use_this_guide"
+    t.integer  "views"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cover_file_name"

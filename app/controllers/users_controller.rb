@@ -3,9 +3,6 @@ class UsersController < ApplicationController
 		@user = User.find(params[:id])
 		@points = @user.points
 		@bio = @user.bio
-		unless @bio 
-			@bio = "You have no bio yet"
-		end
 		@impactGuides = ImpactGuide.where(creator_id: @user.id)
 		responses = Response.where(user_id: @user.id)
 		@responded = Hash.new

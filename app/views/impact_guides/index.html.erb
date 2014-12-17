@@ -1,5 +1,5 @@
 <% @all.each do |x| %>
 <div class= "impactIndex">
-	<%= link_to Game.find(x.game_id).title + " by "+ User.find(x.creator_id).name, x %>
+	<%= link_to Game.find(x.game_id).title + " by "+ User.find(x.creator_id).name, x %> views: <%= x.views %>
 </div>
 <%end%>

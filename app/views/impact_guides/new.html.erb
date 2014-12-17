@@ -24,7 +24,7 @@
 		
 			
 			<div >
-				<%= f.fields_for @impactGuide.@theme do |t|%>
+				<%= f.fields_for :theme do |t|%>
 				<%= t.text_field :name, :placeholder => "theme"%>
 				<%end%>
 			</div>
@@ -119,19 +119,19 @@
 
 				  </li>
 				  <li>
-					<%= i.text_field :prompt2, :placeholder => "Game Basics Prompt",class:  'form-control'%>
+					<%= i.text_field :prompt2, :placeholder => "Game Basics Prompt"%>
 					<%= i.select :points2, options_for_select(@points)%>
 				  </li>
 				  <li>
-					<%= i.text_field :prompt3, :placeholder => "Game Basics Prompt",class:  'form-control'%>
+					<%= i.text_field :prompt3, :placeholder => "Game Basics Prompt"%>
 					<%= i.select :points3, options_for_select(@points)%>
 				  </li>
 				  <li class = "hide" id="basic"> 
-					<%= i.text_field :prompt4, :placeholder => "Game Basics Prompt",class:  'form-control'%>
+					<%= i.text_field :prompt4, :placeholder => "Game Basics Prompt"%>
 					<%= i.select :points4, options_for_select(@points)%>
 				  </li>
 				  <li class = "hide" id = "basic2">
-					<%= i.text_field :prompt5, :placeholder => "Game Basics Prompt",class:  'form-control'%>
+					<%= i.text_field :prompt5, :placeholder => "Game Basics Prompt"%>
 					<%= i.select :points5, options_for_select(@points)%>
 				  </li>
 				<%end%>
