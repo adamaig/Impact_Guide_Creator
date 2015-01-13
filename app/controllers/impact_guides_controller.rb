@@ -51,6 +51,13 @@ class ImpactGuidesController < ApplicationController
   def index
    #creates a hash of all impact guides to list them
     @all = ImpactGuide.all
+    @names = Array.new
+    @games = Game.all
+    @games.each do |x|
+      unless @names.any? {|game| x.title == game.title}
+        @names.push(x)
+      end
+    end
   end
 
   def update
@@ -113,7 +120,10 @@ class ImpactGuidesController < ApplicationController
       #trys to save theme if it goes through it saves it and creates a game if not it deletes the impact guide and renders new
       if theme.save
         theme.save!
-        game = Game.new(params[:impact_guide][:game].permit!, ig_id: @impactGuide.id)
+        game = Game.find_by(title: params[:impact_guide][:game][:title], quote: params[:impact_guide][:game][:quote])
+        unless game
+          game = Game.new(params[:impact_guide][:game].permit!, ig_id: @impactGuide.id)
+        end
         #if the game saves it creats an IgAbout Description if not it deletes the theme and the impact guide
         if game.save
           game.save!

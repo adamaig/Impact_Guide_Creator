@@ -1,5 +1,36 @@
-<% @all.each do |x| %>
-<div class= "impactIndex">
-	<%= link_to Game.find(x.game_id).title + " by "+ User.find(x.creator_id).name, x %> views: <%= x.views %>
-</div>
-<%end%>
+<table data-toggle="table"
+	   data-pagination="true"
+	   data-search = "true">
+    <thead>
+    <tr>
+        <th data-field="game" 
+            data-sortable="true">Game</th>
+        
+        <th data-field="view" 
+            data-sortable="true">Views</th>
+        
+        <th data-field="theme" 
+            data-sortable="true">Theme</th>
+        
+        <th data-field="creator" 
+            data-sortable="true">Creator</th>
+    </tr>
+    </thead>
+    <tbody>
+	    <% @all.each do |x| %>
+		    <tr>
+		        <td> <%= link_to Game.find(x.game_id).title, x %> </td>
+		        <td> <%= x.views %></td>
+		        <td> <%= Theme.find(x.theme_id).name %>  </td>
+		        <td> <%= link_to User.find(x.creator_id).name, User.find(x.creator_id)%> </td>
+		    </tr>
+	    <%end%>
+    </tbody>
+</table>
+
+
+
+
+
+
+

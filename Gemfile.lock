@@ -99,6 +99,7 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
+    pdfkit (0.6.2)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -168,6 +169,7 @@ DEPENDENCIES
   omniauth
   omniauth-google-oauth2 (~> 0.2.1)
   paperclip (~> 4.1.1)
+  pdfkit
   rails (= 4.0.1)
   sass-rails (~> 4.0.0)
   sdoc

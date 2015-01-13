@@ -1,65 +1,73 @@
-<div class = "pic">
-<%= image_tag @user.avatar.url(:medium) %>
-<br>
-Points: <%= @points%>
-</div>
 
-<div class = "guides">
-	<strong> Impact Guides You Made </strong>
-	<br>
-	<%if @impactGuides.length == 0%>
-		<%if current_user.id == @user.id %>
-			You have not made to any impact guides yet
-		<%else%>
-			<%= @user.name %> has not made any impact guides yet
-		<%end%>
-	<%else%>
-	<ul>
-		<% @impactGuides.each do |x| %>
-			<li><%= link_to  Game.find(x.game_id).title, x %> views: <%= x.views%></li>
-		<%end%>
-	</ul>
-	<%end%>
-</div> 
-
-<div class = "commentedGuides">
-	<strong> Impact Guides You Responded To </strong>
-	<br> 
-	<% if @seen.length == 0 %>
-		<%if current_user.id == @user.id %>
-			You have not responded to any impact guides yet
-		<%else%>
-			<%= @user.name %> has not responded to any impact guides yet
-		<%end%>
-	<%else%>
-		<ul>
-			<% @seen.each do |x| %>
-				<%if x%>
-					<li><%= link_to Game.find(ImpactGuide.find(x).game_id).title, ImpactGuide.find(x) %></li>
+<div class="container">
+	<div class = "row">
+		<div class = "pic col-md-4">
+			<%= image_tag @user.avatar.url(:medium) %>
+			<br>
+			Points: <%= @points%> 
+				<% if current_user.id == @user.id %>
+					<%= link_to "edit your profile", "#{current_user.id}/edit"%>
 				<%end%>
+			<div class = "bio">
+				<strong> Your Bio </strong>
+				<br>
+				<% if !@user.bio || @user.bio == "" %>
+					<%if current_user.id == @user.id %>
+						You have no bio yet
+					<%else%>
+						<%= @user.name %> has no bio
+					<%end%>
+				<%else%>
+					<%= @user.bio %>
+				<%end%>
+				<br>
+				
+			</div>
+		</div>
+
+
+
+		<div class = "guides col-md-4">
+			<strong> Impact Guides You Made </strong>
+			<br>
+			<%if @impactGuides.length == 0%>
+				<%if current_user.id == @user.id %>
+					You have not made to any impact guides yet
+				<%else%>
+					<%= @user.name %> has not made any impact guides yet
+				<%end%>
+			<%else%>
+			<ul>
+				<% @impactGuides.each do |x| %>
+					<li><%= link_to  Game.find(x.game_id).title, x %> views: <%= x.views%></li>
+				<%end%>
+			</ul>
 			<%end%>
-		</ul>
-	<%end%>
+		</div> 
+
+		<div class = "commentedGuides col-md-4">
+			<strong> Impact Guides You Responded To </strong>
+			<br> 
+			<% if @seen.length == 0 %>
+				<%if current_user.id == @user.id %>
+					You have not responded to any impact guides yet
+				<%else%>
+					<%= @user.name %> has not responded to any impact guides yet
+				<%end%>
+			<%else%>
+				<ul>
+					<% @seen.each do |x| %>
+						<%if x%>
+							<li><%= link_to Game.find(ImpactGuide.find(x).game_id).title, ImpactGuide.find(x) %></li>
+						<%end%>
+					<%end%>
+				</ul>
+			<%end%>
+		</div>
+
+		
+	</div>
 </div>
-
-<div class = "bio">
-	<strong> Your Bio </strong>
-	<br>
-	<% if !@user.bio || @user.bio == "" %>
-		<%if current_user.id == @user.id %>
-			You have no bio yet
-		<%else%>
-			<%= @user.name %> has no bio
-		<%end%>
-	<%else%>
-		<%= @user.bio %>
-	<%end%>
-</div>
-
-<% if current_user.id == @user.id %>
-	<%= link_to "edit your profile", "#{current_user.id}/edit"%>
-<%end%>
-
 
 
 

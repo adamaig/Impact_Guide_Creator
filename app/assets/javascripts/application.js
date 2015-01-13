@@ -16,5 +16,5 @@
 //= require turbolinks
 //= require rowFunctions
 //= require jspdf.min
-//= require FileSaver.js
+//= require bootstrap-table.js
 //= require_tree .

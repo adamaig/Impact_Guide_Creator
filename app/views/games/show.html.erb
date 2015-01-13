@@ -1,0 +1,10 @@
+<%unless @games %>
+	<%redirect_to :back%>
+<%end%>
+
+<strong> <%= @game %></strong>
+<ul>
+<% @games.each do |x| %>
+	<li><%= link_to @game + " by "+ User.find(x.creator_id).name, x %> views: <%= x.views %></li>
+<%end%>
+</ul>

@@ -14,6 +14,7 @@ GoogleAuthExample::Application.routes.draw do
   resources :impact_guides
   resources :responses, only: [:create, :destroy, :update]
   resources :users, only: [:show, :index, :edit, :update]
+  resources :games, only: [:show]
   
   root to: "home#show"
 end

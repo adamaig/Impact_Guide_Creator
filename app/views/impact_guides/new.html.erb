@@ -39,7 +39,7 @@
 		<%= g.text_field :title, :placeholder=> "Insert Game Title"%>
 		<%end%>
 	</div>
-	<div class="col-md-9">
+	<div class="col-md-9" style= "visibility: hidden;">
 		<%= f.fields_for :gameDropDown do |g|%>
 		<%games = Game.all.map {|g| ([g.title, g.title])} %> <% games.insert(0, ["or choose from existing games", ""])%>
 		<%= g.select :title, options_for_select(games) %>
