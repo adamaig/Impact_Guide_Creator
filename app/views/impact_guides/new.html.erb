@@ -113,26 +113,8 @@
 			<ul>
 			    <%= f.fields_for :game_basics_prompts do |i|%>
 				  <li>						
-					<%= i.text_field :prompt1, :placeholder => "Game Basics Prompt"%>
-				
-					<%= i.select :points1, options_for_select(@points), class: "box"%>
-
-				  </li>
-				  <li>
-					<%= i.text_field :prompt2, :placeholder => "Game Basics Prompt"%>
-					<%= i.select :points2, options_for_select(@points)%>
-				  </li>
-				  <li>
-					<%= i.text_field :prompt3, :placeholder => "Game Basics Prompt"%>
-					<%= i.select :points3, options_for_select(@points)%>
-				  </li>
-				  <li class = "hide" id="basic"> 
-					<%= i.text_field :prompt4, :placeholder => "Game Basics Prompt"%>
-					<%= i.select :points4, options_for_select(@points)%>
-				  </li>
-				  <li class = "hide" id = "basic2">
-					<%= i.text_field :prompt5, :placeholder => "Game Basics Prompt"%>
-					<%= i.select :points5, options_for_select(@points)%>
+					<%= i.text_field :prompt, :placeholder => "Game Basics Prompt"%>
+					<%= i.select :points, options_for_select(@points), class: "box"%>
 				  </li>
 				<%end%>
 			</ul>
@@ -148,24 +130,8 @@
 			<ul>
 			    <%= f.fields_for :theme_insight_prompts do |i|%>
 				  <li>
-					<%= i.text_field :prompt1, :placeholder => "Theme Insight Prompt"%>
-					<%= i.select :points1, options_for_select(@points)%>
-				  </li>
-				  <li>
-					<%= i.text_field :prompt2, :placeholder => "Theme Insight Prompt"%>
-					<%= i.select :points2, options_for_select(@points)%>
-				  </li>
-				  <li>
-					<%= i.text_field :prompt3, :placeholder => "Theme Insight Prompt"%>
-					<%= i.select :points3, options_for_select(@points)%>
-				  </li>
-				  <li class = "hide" id = "theme">
-					<%= i.text_field :prompt4, :placeholder => "Theme Insight Prompt"%>
-					<%= i.select :points4, options_for_select(@points)%>
-				  </li>
-				  <li class = "hide" id = "theme2">
-					<%= i.text_field :prompt5, :placeholder => "Theme Insight Prompt"%>
-					<%= i.select :points5, options_for_select(@points)%>
+					<%= i.text_field :prompt, :placeholder => "Theme Insight Prompt"%>
+					<%= i.select :points, options_for_select(@points)%>
 				  </li>
 				<%end%>
 			</ul>
@@ -181,24 +147,8 @@
 			<ul>
 			    <%= f.fields_for :world_connections_prompts do |i|%>
 				  <li>
-					<%= i.text_field :prompt1, :placeholder => "World Connections Prompt"%>
-					<%= i.select :points1, options_for_select(@points)%>
-				  </li>
-				  <li >
-					<%= i.text_field :prompt2, :placeholder => "World Connections Prompt"%>
-					<%= i.select :points2, options_for_select(@points)%>
-				  </li>
-				  <li>
-					<%= i.text_field :prompt3, :placeholder => "World Connections Prompt"%>
-					<%= i.select :points3, options_for_select(@points)%>
-				  </li>
-				  <li class="hide" id = "world">
-					<%= i.text_field :prompt4, :placeholder => "World Connections Prompt"%>
-					<%= i.select :points4, options_for_select(@points)%>
-				  </li>
-				  <li class = "hide" id = "world2">
-					<%= i.text_field :prompt5, :placeholder => "World Connections Prompt"%>
-					<%= i.select :points5, options_for_select(@points)%>
+					<%= i.text_field :prompt, :placeholder => "World Connections Prompt"%>
+					<%= i.select :points, options_for_select(@points)%>
 				  </li>
 				<%end%>
 			</ul>

@@ -3,13 +3,17 @@ class ImpactGuidesController < ApplicationController
 
   def new
     @impactGuide = ImpactGuide.new
-    #an array to be used for selecting the points to be used 
+    4.times do
+        @impactGuide.game_basics_prompts.build
+    end
+    #an array to be used for selecting the points to be used
     @points = [["[+1]", 1], ["[+2]",2], ["[+3]", 3]]
     @theme = Theme.new
   end
-  
+
   def edit
     @impactGuide = ImpactGuide.find(params[:id], include: [:impact_area, :impact_guide_prompts])
+    @impactGuide = ImpactGuide.find(params[:id], include: [:impact_area, :game_basics_prompts, :theme_insight_prompts, :world_connections_prompts])
   end
 
 
@@ -39,11 +43,11 @@ class ImpactGuidesController < ApplicationController
     @response = Response.new
     len = ImpactGuidePrompt.where(impact_guide_id: @impactGuide.id).length
     @responses = Array.new(len)
-    for i in 0..len do 
+    for i in 0..len do
       @responses[i] = "Response#{i}".to_sym
       #@responses[i]= @responses[i].to_sym
     end
-    
+
     @counter = 0;
     #byebug
   end
@@ -67,24 +71,24 @@ class ImpactGuidesController < ApplicationController
 
     @impactGuide.transaction do
      if :cover
-      @impactGuide.update(age: params[:impact_guide][:age], 
-                         time: params[:impact_guide][:time], 
-                  category_id: params[:impact_guide][:category_id], 
+      @impactGuide.update(age: params[:impact_guide][:age],
+                         time: params[:impact_guide][:time],
+                  category_id: params[:impact_guide][:category_id],
            why_use_this_guide: params[:impact_guide][:why_use_this_guide],
                         cover: params[:impact_guide][:cover])
      else
-      @impactGuide.update(age: params[:impact_guide][:age], 
-                         time: params[:impact_guide][:time], 
-                  category_id: params[:impact_guide][:category_id], 
+      @impactGuide.update(age: params[:impact_guide][:age],
+                         time: params[:impact_guide][:time],
+                  category_id: params[:impact_guide][:category_id],
            why_use_this_guide: params[:impact_guide][:why_use_this_guide])
      end
-      
+
       Theme.transaction(requires_new: true) do
         Theme.find(@impactGuide.theme_id).update(params[:impact_guide][:theme].permit!)
-        
+
         Game.transaction(requires_new: true) do
           Game.find(@impactGuide.game_id).update(params[:impact_guide][:game].permit!)
-        
+
           IgAboutDescription.transaction(requires_new: true) do
             IgAboutDescription.find_by(ig_id: @impactGuide.id).update(text: params[:impact_guide][:ig_about_description][:text])
 
@@ -128,7 +132,7 @@ class ImpactGuidesController < ApplicationController
         if game.save
           game.save!
           aboutDesc = IgAboutDescription.new(text: params[:impact_guide][:ig_about_description][:text], game_id: game.id, ig_id: @impactGuide.id)
-          #tries to save the aboutDesc if it does it makes a themeDescription if not it deletes the about description theme and impact giude 
+          #tries to save the aboutDesc if it does it makes a themeDescription if not it deletes the about description theme and impact giude
           if aboutDesc.save
             aboutDesc.save!
            igt = IgThemeDescription.new(text: params[:impact_guide][:ig_theme_description][:text])
@@ -165,7 +169,7 @@ class ImpactGuidesController < ApplicationController
     end
    #checks to see if the right amount of prompts have been filled out if they haven't it deletes theme impactguide
    #game aboutDesc igt then renders new
-   unless prompts 
+   unless prompts
       theme.delete
       @impact_guide.delete
       game.delete
@@ -180,33 +184,33 @@ class ImpactGuidesController < ApplicationController
 
    def prompts
       #sets external counter
-      x = 0 
+      x = 0
       #makes sure at least 3 of the promts where not left blank the game basics category if not returns false
-      params[:impact_guide][:game_basics_prompts].each do |k, v| 
-        if v != "" 
-          x+= 1 
+      params[:impact_guide][:game_basics_prompts].each do |k, v|
+        if v != ""
+          x+= 1
         end
       end
       if x <8
         false
       end
        #resets conter
-       x = 0 
+       x = 0
       #makes sure at least 3 of the promts where not left blank the theme insights category if not returns false
-      params[:impact_guide][:theme_insight_prompts].permit!.each do |k, v| 
-        if v != "" 
-          x+= 1 
+      params[:impact_guide][:theme_insight_prompts].permit!.each do |k, v|
+        if v != ""
+          x+= 1
         end
       end
       if x <8
         false
       end
        #resets counter
-       x = 0 
+       x = 0
       #makes sure at least 3 of the promts where not left blank the theme insights category if not returns false
-      params[:impact_guide][:world_connections_prompts].each do |k, v| 
-        if v != "" 
-          x+= 1 
+      params[:impact_guide][:world_connections_prompts].each do |k, v|
+        if v != ""
+          x+= 1
         end
       end
       if x <8
@@ -240,7 +244,7 @@ class ImpactGuidesController < ApplicationController
         if v != "" && v != "1" && v != "2" && v != "3"
          impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 2, points: 0)
           x+=1
-        elsif v == "1" || v == "2" || v == "3"  && impact.points == 0 
+        elsif v == "1" || v == "2" || v == "3"  && impact.points == 0
           impact.update(points: v)
         end
       end
@@ -261,27 +265,27 @@ class ImpactGuidesController < ApplicationController
       update_prompt_group(ig, params[:impact_guide][:game_basics_prompts], 1)
       #repeats the same process for the second category
       update_prompt_group(ig, params[:impact_guide][:theme_insight_prompts], 2)
-      #repeats the process again for the third category 
+      #repeats the process again for the third category
       update_prompt_group(ig, params[:impact_guide][:world_connections_prompts], 3)
     end
 
-    def update_prompt_group(ig, prompt_group, category_id) 
+    def update_prompt_group(ig, prompt_group, category_id)
 
       #holds the postition to be used
       x= 1
       #place holder impact guide prompt
       impact = ImpactGuidePrompt.new
-      prompt_group.permit!.each do |k, v| 
+      prompt_group.permit!.each do |k, v|
         #makes sure the value is not empty or a number
           prompt = ImpactGuidePrompt.where(position: x, impact_guide_id: ig, category_id: category_id).first
           if prompt
-            if !v.empty? && !%w(1..3).member?(v) 
+            if !v.empty? && !%w(1..3).member?(v)
               prompt.update(prompt: v, impact_guide_id: ig, position: x, category_id: category_id)
               #stores the newly updated prompt to an external variable
               impact = prompt
                #increments the postion
             x+=1
-            elsif %w(1..3).member?(v) 
+            elsif %w(1..3).member?(v)
            #updates the points of an impact guide if it exists
             impact.update(points: v) if impact.prompt != ""
             #resets the impact variable
@@ -299,7 +303,7 @@ class ImpactGuidesController < ApplicationController
 
 
   end
-    
-    
+
+
 
 
