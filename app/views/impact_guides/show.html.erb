@@ -78,7 +78,7 @@
 			</div>
 			<div class = "pormpts col-md-10">
 				<ul>
-					<%= render partial: 'theme_prompts', locals: { g: g } %>	
+					<%= render partial: 'world_prompts', locals: { g: g } %>	
 				</ul>
 			</div>
 		</div>
@@ -86,6 +86,9 @@
 			<%=g.submit "submit response", class: "btn btn-primary"%>
 		<%end%>
 	<%end%>
+	<% if current_user && current_user.id == @impactGuide.creator_id %>
+			<%= button_to "Edit", "/impact_guides/#{@impactGuide.id}/edit" , :method => "get" %>
+		<%end%>
 </div>
 
    

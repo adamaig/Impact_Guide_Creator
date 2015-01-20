@@ -2,16 +2,19 @@
 <div class="container">
 	<div class = "row">
 		<div class = "pic col-md-4">
-			<%= image_tag @user.avatar.url(:medium) %>
+			<%= image_tag @user.avatar.url(:medium), size: "200x200" %>
 			<br>
 			Points: <%= @points%> 
-				<% if current_user.id == @user.id %>
+				<% if current_user && current_user.id == @user.id %>
 					<%= link_to "edit your profile", "#{current_user.id}/edit"%>
+					<div class = "bio">
+					<strong> Your Bio </strong>
+				<%else%>
+					<div class = "bio">
+					<strong> <%= @user.name + "'s" %> Bio </strong>
 				<%end%>
-			<div class = "bio">
-				<strong> Your Bio </strong>
 				<br>
-				<% if !@user.bio || @user.bio == "" %>
+				<% if current_user && (!@user.bio || @user.bio == "") %>
 					<%if current_user.id == @user.id %>
 						You have no bio yet
 					<%else%>
@@ -28,7 +31,11 @@
 
 
 		<div class = "guides col-md-4">
-			<strong> Impact Guides You Made </strong>
+			<% if current_user && current_user.id == @user.id %>
+				<strong> Impact Guides You Have Made </strong>
+			<%else%>
+				<strong> Impact Guides <%= @user.name%> Has Made </strong>
+			<%end%>
 			<br>
 			<%if @impactGuides.length == 0%>
 				<%if current_user.id == @user.id %>
@@ -46,10 +53,14 @@
 		</div> 
 
 		<div class = "commentedGuides col-md-4">
-			<strong> Impact Guides You Responded To </strong>
+			<% if current_user && current_user.id == @user.id %>
+				<strong> Impact Guides You Responded To </strong>
+			<%else%>
+				<strong> Impact Guides <%= @user.name%> Responded To </strong>
+			<%end%>
 			<br> 
 			<% if @seen.length == 0 %>
-				<%if current_user.id == @user.id %>
+				<%if current_user && current_user.id == @user.id %>
 					You have not responded to any impact guides yet
 				<%else%>
 					<%= @user.name %> has not responded to any impact guides yet

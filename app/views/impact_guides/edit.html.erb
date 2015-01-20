@@ -45,10 +45,7 @@
 		<%end%>
 	</div>
 	<div class="col-md-9">
-		<%= f.fields_for :gameDropDown do |g|%>
-		<%games = Game.all.map {|g| ([g.title, g.title])} %> <% games.insert(0, ["or choose from existing games", ""])%>
-		<%= g.select :title, options_for_select(games) %>
-		<%end%>
+		
 
 	</div>
 </div>
@@ -77,7 +74,7 @@
 	</div>
 	<div class = "col-md-3">
   		<strong> Select a cover image </strong><br>
-  		<%= f.file_field :cover %>
+  		<%= f.file_field :cover, value: @impactGuide.cover %>
 	</div>
 <div class="row">
 	<div class="col-md-12">

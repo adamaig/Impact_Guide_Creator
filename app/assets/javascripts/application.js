@@ -16,5 +16,6 @@
 //= require turbolinks
 //= require rowFunctions
 //= require jspdf.min
+//= require jquery.turbolinks
 //= require bootstrap-table.js
 //= require_tree .

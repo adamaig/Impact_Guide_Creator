@@ -9,7 +9,7 @@ class ImpactGuidesController < ApplicationController
   end
   
   def edit
-    @impactGuide = ImpactGuide.find(params[:id])
+    @impactGuide = ImpactGuide.find(params[:id], include: [:impact_area, :impact_guide_prompts])
   end
 
 
@@ -257,72 +257,45 @@ class ImpactGuidesController < ApplicationController
       end
     end
 
-      def updatePrompts(ig)
-       #holds the postition to be used
-       x= 1
-      #place holder impact guide prompt
-      impact = ImpactGuidePrompt.new
-       params[:impact_guide][:game_basics_prompts].permit!.each do |k, v| 
-        #makes sure the value is not empty or a number
-        if v != "" && v != "1" && v != "2" && v != "3"
-          prompt = ImpactGuidePrompt.find_by(position: x, impact_guide_id: ig, category_id: 1)
-          if prompt
-            prompt.update(prompt: v, impact_guide_id: ig, position: x, category_id: 1)
-            #stores the newly updated prompt to an external variable
-            impact = prompt
-             #increments the postion
-            x+=1
-          else
-            #if it can not find an impact prompt for the selected guide that has the same category id and postion it creates one
-            ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 1)
-          end
-        
-        else
-          #updates the points of an impact guide if it exists
-          impact.update(points: v) if impact.prompt != ""
-          #resets the impact variable
-          impact = ImpactGuidePrompt.new
-        end
-      end
+    def updatePrompts(ig)
+      update_prompt_group(ig, params[:impact_guide][:game_basics_prompts], 1)
       #repeats the same process for the second category
-      impact = ImpactGuidePrompt.new
-      x=1
-      (params[:impact_guide][:theme_insight_prompts].permit!).each do |k, v|
-        if v != "" && v != "1" && v != "2" && v != "3"
-          prompt = ImpactGuidePrompt.find_by(position: x, impact_guide_id: ig, category_id: 2)
-          if prompt
-            prompt.update(prompt: v, impact_guide_id: ig, position: x, category_id: 2)
-            impact = prompt
-            x+=1
-          else
-            ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 2)
-          end
-          
-        else
-          impact.update(points: v) if impact.prompt != ""
-          impact = ImpactGuidePrompt.new
-        end
-      end
+      update_prompt_group(ig, params[:impact_guide][:theme_insight_prompts], 2)
       #repeats the process again for the third category 
-      impact = ImpactGuidePrompt.new
-      x=1
-       params[:impact_guide][:world_connections_prompts].permit!.each do |k, v|
-       if v != "" && v != "1" && v != "2" && v != "3"
-         prompt = ImpactGuidePrompt.find_by(position: x, impact_guide_id: ig, category_id: 3)
-          if prompt
-            prompt.update(prompt: v, impact_guide_id: ig, position: x, category_id: 3)
-            impact = prompt
-            x+=1
-          else
-            ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: 3)
-          end
-        else
-          impact.update(points: v) if impact.prompt != ""
-          impact = ImpactGuidePrompt.new
-        end
-      end
+      update_prompt_group(ig, params[:impact_guide][:world_connections_prompts], 3)
     end
 
+    def update_prompt_group(ig, prompt_group, category_id) 
+
+      #holds the postition to be used
+      x= 1
+      #place holder impact guide prompt
+      impact = ImpactGuidePrompt.new
+      prompt_group.permit!.each do |k, v| 
+        #makes sure the value is not empty or a number
+          prompt = ImpactGuidePrompt.where(position: x, impact_guide_id: ig, category_id: category_id).first
+          if prompt
+            if !v.empty? && !%w(1..3).member?(v) 
+              prompt.update(prompt: v, impact_guide_id: ig, position: x, category_id: category_id)
+              #stores the newly updated prompt to an external variable
+              impact = prompt
+               #increments the postion
+            x+=1
+            elsif %w(1..3).member?(v) 
+           #updates the points of an impact guide if it exists
+            impact.update(points: v) if impact.prompt != ""
+            #resets the impact variable
+            impact = ImpactGuidePrompt.new
+            end
+          elsif !v.empty?
+            impact = ImpactGuidePrompt.create(prompt: v, impact_guide_id: ig, position: x, category_id: category_id, points: 1)
+            x+=1
+          elsif impact.prompt == "" || prompt.prompt == ""
+            prompt.destroy
+            byebug
+          end
+      end
+    end
 
 
   end
